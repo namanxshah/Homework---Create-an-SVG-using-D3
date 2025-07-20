@@ -16,13 +16,48 @@
     <link rel="stylesheet" href="base.css">
     <link rel="stylesheet" href="custom.css">
 
+    <!-- Adding fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+
+    body {
+      margin: 0;
+      font-size: 20px;
+      font-family: 'Fjalla One', 'Roboto';
+      text-rendering: optimizeLegibility;
+      background-color: #F2F3F0
+    }
+
+    h1 {
+      font-family: 'Fjalla One';
+      font-size: 3em;
+      line-height: 1.1;
+      padding-top: 1.2em;
+    }
+
+    p {
+      font-family: 'Roboto';
+    }
+
+    figure {
+      margin: 0;
+      padding-bottom: 1.2em;
+      margin-top: -500px;
+      padding-left: 15em;
+    }
+    </style>
+
     <!-- Step 2: add your d3 script below -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 
   </head>
   <body>
     <h1>Jeff Bezos’ wedding in Venice was relatively cheap</h1>
-    <p><p>This is how much Bezos <span style="color:red;font-weight: bold;">spent on his wedding</span> relative to <span style="color:#999;font-weight: bold;">his wealth</span> as compared to an average American.</p>
+    <p><p>This is how much Bezos <span style="color:#FF9900;font-weight: bold;">spent on his wedding</span> relative to <span style="color:#000000;font-weight: bold;">his wealth</span> as compared to an average American.</p>
     <div id="my-svg-chart"></div>
 
     <!-- your JS code that uses d3 to manipulate data -->
@@ -66,7 +101,7 @@
       // this creates alternating colors based on the index of the circle
       circles
        .style('fill', function(d,i) {
-       return i%2 == 0 ? '#ccc' : 'red'
+       return i%2 == 0 ? '#000000' : '#FF9900'
        })
 
       // Step 9. Add labels
@@ -84,6 +119,10 @@
 
 
     </script>
+    
+    <figure>
+    <img src="amazon-arrow.png">
+    </figure>
 
   </body>
 </html>
