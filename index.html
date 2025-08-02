@@ -1,128 +1,323 @@
-<!doctype html>
-<html>
-  <head>
-
-    <!-- some basic stuff  -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Homework: SVG with D3</title>
-
-    <!-- 
-      add your stylesheet 
-      base.css loads the templated css that should not be changed
-      you can tweak your own css in custom.css and it will override base.css
-      WARNING: the order of the stylesheets matters
-    -->
-    <link rel="stylesheet" href="base.css">
-    <link rel="stylesheet" href="custom.css">
-
-    <!-- Adding fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <style>
-
-    body {
-      margin: 0;
-      font-size: 20px;
-      font-family: 'Fjalla One', 'Roboto';
-      text-rendering: optimizeLegibility;
-      background-color: #F2F3F0
-    }
-
-    h1 {
-      font-family: 'Fjalla One';
-      font-size: 3em;
-      line-height: 1.1;
-      padding-top: 1.2em;
-    }
-
-    p {
-      font-family: 'Roboto';
-    }
-
-    figure {
-      margin: 0;
-      padding-bottom: 1.2em;
-      margin-top: -500px;
-      padding-left: 15em;
-    }
-    </style>
-
-    <!-- Step 2: add your d3 script below -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework: D3 Scrollama</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollama/3.2.0/scrollama.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFFBDE;
+        }
 
-  </head>
-  <body>
-    <h1>Jeff Bezos’ wedding in Venice was relatively cheap</h1>
-    <p><p>This is how much Bezos <span style="color:#FF9900;font-weight: bold;">spent on his wedding</span> relative to <span style="color:#000000;font-weight: bold;">his wealth</span> as compared to an average American.</p>
-    <div id="my-svg-chart"></div>
+        .main {
+            display: flex;
+            flex-direction: row;
+        }
 
-    <!-- your JS code that uses d3 to manipulate data -->
+        .scroll-section {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .chart-container {
+            flex: 1;
+            position: sticky;
+            top: 50px;
+            height: 500px;
+            padding: 20px;
+        }
+
+        .step {
+            min-height: 20vh;
+            padding: 50px 20px;
+            margin-bottom: 2rem;
+            background-color: #749BC2;
+            /* border-left: 4px solid #4CAF50; */
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .step.is-active {
+            opacity: 1;
+            background-color: #91C8E4;
+        }
+
+        .step h2 {
+            margin-top: 0;
+            color: #FFFBDE;
+            font-size: 24px;
+        }
+
+        .step p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #FFFBDE;
+        }
+
+        .bar {
+            fill: #4682A9;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .bar.visible {
+            opacity: 1;
+        }
+
+        .axis {
+            font-size: 12px;
+        }
+
+        .value-label {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .value-label.visible {
+            opacity: 1;
+        }
+
+        .intro {
+            min-height: 5vh;
+            padding: 50px 20px;
+            text-align: center;
+            background-color: #4682A9;
+            color: #FFFBDE; 
+        }
+
+        .outro {
+            min-height: 5vh;
+            padding: 50px 20px;
+            text-align: center;
+            background-color: #4682A9;
+            color: #FFFBDE
+        }
+    </style>
+</head>
+<body>
+    <div class="intro">
+        <h1>My looooooooong journey at Lede 2025</h1>
+        <p>Learnings I accumulated in 9 weeks, visualised in 9 scrolls</p>
+    </div>
+
+    <div class="main">
+        <div class="scroll-section">
+            <!-- STEP 0: Before Lede -->
+            <!-- <div class="step" data-step="0">
+                <h2>Before Lede</h2>
+                <p><span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Spreadsheets</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Flourish</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Datawrapper</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Canva</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;"> Shorthand</span></p>
+                
+            </div> -->
+
+            <!-- STEP 1: Week 1 -->
+            <div class="step" data-step="1">
+                <h2>Week 1</h2>
+                <p>Via pre-program study- <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">HTML</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">CSS</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Python</span></p>
+                <p>During Lede- <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Command line</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">APIs</span></p>
+            </div>
+
+            <!-- STEP 2: Week 2 -->
+            <div class="step" data-step="2">
+                <h2>Week 2</h2>
+                <p><span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Jupyter Notebook</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Pandas</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">web scraping</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">biases in maps</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">how to approach ideas</span></p>
+                
+            </div>
+
+            <!-- STEP 3: Week 3 -->
+            <div class="step" data-step="3">
+                <h2>Week 3</h2>
+                <p><span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Data cleaning</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">geojson.io</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">locator maps in Datawrapper</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Adobe Illustrator</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">vector vs raster</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">some freelancing stuff</span></p>
+          
+            </div>
+
+            <!-- STEP 4: Week 4 -->
+            <div class="step" data-step="4">
+                <h2>Week 4</h2>
+                <p>Via classes - <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Pitching data stories</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">color theory</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">QGIS</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">scraping PDFs</span></p>
+                <p>Via projects - <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Making basic story webpage with template</span></p>
+            </div>
+
+            <!-- STEP 5: Week 5 -->
+            <div class="step" data-step="5">
+                <h2>Week 5</h2>
+                <p><span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Structuring visual stories</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">user interface</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">data investigations</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Mapbox</span></p>
+               
+            </div>
+
+            <!-- STEP 6: Week 6 -->
+            <div class="step" data-step="6">
+                <h2>Week 6</h2>
+                <p><span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">AI classification</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">browser automation</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">scraping via XML</span></p>
+                
+            </div>
+
+            <!-- STEP 7: Week 7 -->
+            <div class="step" data-step="7">
+                <h2>Week 7</h2>
+                <p>Via classes - <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Making SVGs in D3</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">working with satellite imagery</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">undocumented APIs</span></p>
+                <p>As part of homework - <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Javascript</span></p>
+                <p>Via projects - <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Image scrollytelling</span></p>
+            </div>
+
+            <!-- STEP 8: Week 8 -->
+            <div class="step" data-step="8">
+                <h2>Week 8</h2>
+                <p><span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">Observable</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">mapping with raster images</span></p>
+                
+            </div>
+
+            <!-- STEP 9: Week 9 -->
+            <div class="step" data-step="9">
+                <h2>Week 9</h2>
+                <p><span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">D3 animations</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">making data requests</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">adding methodology</span>, <span style="background-color: #FFFBDE; color: #4682A9; padding: 2px 6px; border-radius: 3px;">ai2html</span></p>
+                
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div id="chart"></div>
+        </div>
+    </div>
+
+    <div class="outro">
+        <p>This is an inexhaustive list. It excludes a lot of stuff I couldn't grasp.</p>
+        <p>This assignment was made possible due to Claude.ai</p>
+        <p>Its repository can be found here</p>
+
+    </div>
+
     <script>
+        // STEP 1: Prepare the data
+        // Convert our data into an array of objects that D3 can work with
+        const data = [
+            //{period: "Before Lede", skills: 5},
+            {period: "Week 1", skills: 5},
+            {period: "Week 2", skills: 10},
+            {period: "Week 3", skills: 16},
+            {period: "Week 4", skills: 21},
+            {period: "Week 5", skills: 25},
+            {period: "Week 6", skills: 28},
+            {period: "Week 7", skills: 33},
+            {period: "Week 8", skills: 35},
+            {period: "Week 9", skills: 39}
+        ];
 
-      // Step 3. add data variables
-      // unit in million
-      const bezosCost = 56, 
-            bezosWealth = 236000,
-            averageCost = 7375, 
-            averageWealth = 236000;  
+        // STEP 2: Set up dimensions and margins
+        // Define the overall size of our chart and margins for axes
+        const margin = {top: 40, right: 30, bottom: 80, left: 60};
+        const width = 600 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
 
-      // Step 4. transform data into usable scales
-      // let's assume we want the max radius of the circles to be 100
-      const scaleRadius = d3.scaleSqrt().domain([0, bezosWealth]).range([0, 100]);
+        // STEP 3: Create the SVG container
+        // This creates the main SVG element and positions it within our HTML
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
 
-      // Step 5. create an SVG container inside #my-svg-chart using d3.select().append()
-      const myChart = d3.select('#my-svg-chart')
-        .append('svg')
-        .attr('width', 640)
-        .attr('height', 640)
+        // Create a group element for the actual chart content
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      // Step 6. create SVG shapes binded with data, using d3.selectAll().data().join()
-      const circles = myChart
-        .selectAll('circle')
-        .data([bezosWealth, bezosCost, averageWealth, averageCost])
-        .join('circle');
+        // STEP 4: Create scales
+        // X Scale: Maps period names to horizontal positions
+        const xScale = d3.scaleBand()
+            .domain(data.map(d => d.period))
+            .range([0, width])
+            .padding(0.1);
 
-      // Step 7. tweak the attributes of the SVG shapes to position them at the right places
-      // with SVG circle-specific attributes
-      circles
-       .attr('cx', function(d,i) {
-          // i == 0 : BezosCost, i == 1 : BezosWealth
-          if (i < 2) {return 100}
-          else {return 300}
-        })
-       .attr('cy', 100)
-       .attr('r', (d) => scaleRadius(d))
+        // Y Scale: Maps skill numbers to vertical positions
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.skills)])
+            .range([height, 0]);
 
-      // Step 8. color the SVG shapes using style attributes
-      // this creates alternating colors based on the index of the circle
-      circles
-       .style('fill', function(d,i) {
-       return i%2 == 0 ? '#000000' : '#FF9900'
-       })
+        // STEP 5: Create and draw the X axis
+        const xAxis = d3.axisBottom(xScale);
+        
+        g.append("g")
+            .attr("class", "axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(xAxis)
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-45)");
 
-      // Step 9. Add labels
-      myChart.append('text')
-        .attr('x', 100)
-        .attr('y', 220)
-        .text('Bezos')
-        .style('text-anchor','middle')
+        // STEP 6: Create the bars (initially hidden)
+        const bars = g.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", d => xScale(d.period))
+            .attr("width", xScale.bandwidth())
+            .attr("y", d => yScale(d.skills))
+            .attr("height", d => height - yScale(d.skills));
 
-      myChart.append('text')
-        .attr('x', 300)
-        .attr('y', 220)
-        .text('Average American')
-        .style('text-anchor','middle')
+        // STEP 7: Create value labels (initially hidden)
+        const labels = g.selectAll(".value-label")
+            .data(data)
+            .enter().append("text")
+            .attr("class", "value-label")
+            .attr("x", d => xScale(d.period) + xScale.bandwidth()/2)
+            .attr("y", d => yScale(d.skills) - 5)
+            .attr("text-anchor", "middle")
+            .style("font-size", "12px")
+            .style("fill", "#333")
+            .text(d => d.skills);
 
+        // STEP 8: Initialize Scrollama
+        const scroller = scrollama();
 
+        // STEP 9: Define scroll functions
+        function handleStepEnter(response) {
+            const stepIndex = response.index;
+            
+            // Show the bar and label for this step
+            d3.select(bars.nodes()[stepIndex])
+                .classed("visible", true);
+            
+            d3.select(labels.nodes()[stepIndex])
+                .classed("visible", true);
+            
+            console.log(`Step ${stepIndex} entered: ${data[stepIndex].period}`);
+        }
+
+        function handleStepExit(response) {
+            const stepIndex = response.index;
+            
+            // Optionally hide bars when scrolling back up
+            // Uncomment these lines if you want bars to disappear when scrolling up
+            
+            if (response.direction === 'up') {
+                d3.select(bars.nodes()[stepIndex])
+                    .classed("visible", false);
+                
+                d3.select(labels.nodes()[stepIndex])
+                    .classed("visible", false);
+            }
+            
+        }
+
+        // STEP 10: Setup Scrollama
+        scroller
+            .setup({
+                step: '.step',
+                offset: 0.5,  // Trigger when step reaches middle of viewport
+                debug: false   // Set to true to see trigger lines
+            })
+            .onStepEnter(handleStepEnter)
+            .onStepExit(handleStepExit);
+
+        // STEP 11: Handle window resize
+        window.addEventListener('resize', scroller.resize);
+
+        console.log("Scrollama chart setup complete!");
     </script>
-    
-    <figure>
-    <img src="amazon-arrow.png">
-    </figure>
-
-  </body>
+</body>
 </html>
